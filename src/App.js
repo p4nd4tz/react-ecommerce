@@ -1,6 +1,5 @@
 import React from 'react';
 import './App.css';
-import ProductList from './features/product-list/ProductList';
 import Home from './pages/Home'
 import LoginPage from './pages/LoginPage'
 import SignupPage from './pages/SignupPage';
@@ -12,11 +11,17 @@ import {
 } from "react-router-dom";
 import CartPage from './pages/CartPage';
 import CheckoutPage from './pages/CheckoutPage';
+import ProductDetail from './features/product/components/ProductDetail';
+import ProductList from './features/product/components/ProductList';
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: (<Home />),
+    element: <Home />,
+    children: [
+      { index: true, element: <ProductList /> },
+      { path: "/product-detail", element: <ProductDetail /> }
+    ]
   },
   {
     path: "login",
@@ -33,7 +38,7 @@ const router = createBrowserRouter([
   {
     path: "checkout",
     element: <CheckoutPage />
-  }
+  },
 ]);
 
 function App() {
