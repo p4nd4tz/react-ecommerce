@@ -11,11 +11,15 @@ import {
   Squares2X2Icon,
 } from "@heroicons/react/20/solid";
 import {
+  fetchBrandsAsync,
+  fetchCategoriesAsync,
   fetchProductByFilterAsync,
   selectAllProducts,
+  selectBrands,
+  selectCategories,
   selectTotalItems,
 } from "../productSlice";
-import { sortOptions, filters } from "../constants";
+import { sortOptions } from "../constants";
 import { ITEMS_PER_PAGE } from "../../../app/constants";
 
 function classNames(...classes) {
@@ -30,6 +34,22 @@ export default function ProductList() {
 
   const products = useSelector(selectAllProducts);
   const totalItems = useSelector(selectTotalItems);
+  const categories = useSelector(selectCategories);
+  const brands = useSelector(selectBrands);
+
+
+  const filters = [
+    {
+      id: 'category',
+      name: 'Category',
+      options: categories
+    },
+    {
+      id: 'brands',
+      name: 'Brands',
+      options: brands
+    },
+  ]
 
   const handleFilter = (e, section, option) => {
     let localFilter = {};
@@ -60,12 +80,18 @@ export default function ProductList() {
     setPage(1);
   }, [totalItems]);
 
+  useEffect(() => {
+    dispatch(fetchCategoriesAsync());
+    dispatch(fetchBrandsAsync());
+  }, [])
+
   return (
     <div>
       <div className="bg-white">
         <div>
           {/* Mobile filter dialog */}
           <MobileFilters
+            filters={filters}
             setMobileFiltersOpen={setMobileFiltersOpen}
             mobileFiltersOpen={mobileFiltersOpen}
           />
@@ -89,7 +115,7 @@ export default function ProductList() {
 
               <div className="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-4">
                 {/* Filters */}
-                <Filters handleFilter={handleFilter} />
+                <Filters handleFilter={handleFilter} filters={filters} />
 
                 {/* Product grid */}
                 <div className="lg:col-span-3">
@@ -232,7 +258,7 @@ const Pagination = ({ page, handlePage, totalItems }) => {
   );
 };
 
-const Filters = ({ handleFilter }) => {
+const Filters = ({ filters, handleFilter }) => {
   return (
     <form className="hidden lg:block">
       <h3 className="sr-only">Categories</h3>
@@ -290,7 +316,7 @@ const Filters = ({ handleFilter }) => {
   );
 };
 
-const MobileFilters = ({ mobileFiltersOpen, setMobileFiltersOpen }) => {
+const MobileFilters = ({ filters, mobileFiltersOpen, setMobileFiltersOpen }) => {
   return (
     <Transition.Root show={mobileFiltersOpen} as={Fragment}>
       <Dialog
