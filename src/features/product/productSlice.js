@@ -3,6 +3,9 @@ import { fetchAllProducts, fetchProductByFilters } from './productAPI';
 
 const initialState = {
     products: [],
+    totalItems: 0,
+    totalPages: 1,
+    status: 'idle'
 };
 
 export const fetchAllProductsAsync = createAsyncThunk(
@@ -15,15 +18,15 @@ export const fetchAllProductsAsync = createAsyncThunk(
 
 export const fetchProductByFilterAsync = createAsyncThunk(
     'product/fetchProductByFilter',
-    async (filter) => {
-        const response = await fetchProductByFilters(filter);
+    async ({ filter, pagination }) => {
+        const response = await fetchProductByFilters(filter, pagination);
         return response.data;
     }
 )
+
 export const productSlice = createSlice({
     name: 'product',
     initialState,
-    // The `reducers` field lets us define reducers and generate associated actions
     reducers: {
         increment: (state) => {
             state.value += 1;
@@ -32,14 +35,14 @@ export const productSlice = createSlice({
 
     extraReducers: (builder) => {
         builder
-            .addCase(fetchAllProductsAsync.fulfilled, (state, action) => {
-                state.products = action.payload;
-            })
-            .addCase(fetchAllProductsAsync.rejected, (state, action) => {
-                state.error = action.error.message;
+            .addCase(fetchProductByFilterAsync.pending, (state, action) => {
+                state.status = 'loading';
             })
             .addCase(fetchProductByFilterAsync.fulfilled, (state, action) => {
-                state.products = action.payload;
+                state.status = 'idle'
+                state.products = action.payload.products;
+                state.totalItems = action.payload.totalItems;
+                state.totalPages = action.payload.totalPages;
             })
             .addCase(fetchProductByFilterAsync.rejected, (state, action) => {
                 state.error = action.error.message;
@@ -51,5 +54,7 @@ export const { increment } = productSlice.actions;
 
 export const selectProduct = (state) => state.product;
 export const selectAllProducts = (state) => state.product.products;
+export const selectTotalItems = (state) => state.product.totalItems;
+export const selectTotalPages = (state) => state.product.totalPages;
 
 export default productSlice.reducer;
