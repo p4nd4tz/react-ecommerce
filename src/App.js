@@ -6,26 +6,31 @@ import SignupPage from './pages/SignupPage';
 import {
   createBrowserRouter,
   RouterProvider,
-  Route,
-  Link,
 } from "react-router-dom";
 import CartPage from './pages/CartPage';
 import CheckoutPage from './pages/CheckoutPage';
 import ProductDetail from './features/product/components/ProductDetail';
 import ProductList from './features/product/components/ProductList';
+import Protected from './features/auth/components/Protected';
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Home />,
+    element:
+      <Protected>
+        <Home />
+      </Protected>
+    ,
     children: [
       { index: true, element: <ProductList /> },
-      { path: "/product-detail", element: <ProductDetail /> }
+      { path: "/products/:id", element: <ProductDetail /> }
     ]
   },
   {
     path: "login",
-    element: <LoginPage />,
+    element:
+      <LoginPage />
+    ,
   },
   {
     path: "signup",
@@ -33,11 +38,16 @@ const router = createBrowserRouter([
   },
   {
     path: "cart",
-    element: <CartPage />,
+    element: <Protected>
+      <CartPage />
+    </Protected>
+    ,
   },
   {
     path: "checkout",
-    element: <CheckoutPage />
+    element: <Protected>
+      <CheckoutPage />
+    </Protected>
   },
 ]);
 
