@@ -3,8 +3,10 @@ import { StarIcon } from '@heroicons/react/20/solid'
 import { RadioGroup } from '@headlessui/react'
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchProductByIdAsync, selectProductById } from '../productSlice';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { colors, sizes, highlights, breadcrumbs, reviews } from '../constants';
+import { selectUser } from '../../auth/authSlice';
+import { addToCartAsync, selectCartItems } from '../../cart/cartSlice';
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
@@ -17,6 +19,18 @@ export default function ProductDetail() {
     const dispatch = useDispatch();
     const params = useParams();
     const product = useSelector(selectProductById);
+    const user = useSelector(selectUser);
+    const cartItems = useSelector(selectCartItems);
+
+    const handleAddToCart = (e) => {
+        e.preventDefault();
+
+        if (cartItems.findIndex((item) => item.product.id === product.id) < 0) {
+            dispatch(addToCartAsync({ product: product, quantity: 1, user: user.id }));
+        } else {
+            alert(`Item already added to cart`);
+        }
+    }
 
     useEffect(() => {
         dispatch(fetchProductByIdAsync(params.id));
@@ -226,11 +240,23 @@ export default function ProductDetail() {
                                     </div>
 
                                     <button
+                                        onClick={(e) => handleAddToCart(e)}
                                         type="submit"
                                         className="mt-10 w-full bg-indigo-600 border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                                     >
                                         Add to cart
                                     </button>
+                                    {
+                                        cartItems.length > 0 &&
+                                        <Link to={`/cart`}>
+                                            <button
+                                                type="button"
+                                                className="mt-10 w-full bg-indigo-600 border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                                            >
+                                                Go to cart
+                                            </button>
+                                        </Link>
+                                    }
                                 </form>
                             </div>
 

@@ -1,61 +1,51 @@
-import { CheckIcon, ClockIcon, QuestionMarkCircleIcon, XMarkIcon } from '@heroicons/react/20/solid'
-import { Link } from 'react-router-dom'
-// import { CheckIcon, ClockIcon, QuestionMarkCircleIcon } from '@heroicons/react/solid'
-
-const products = [
-    {
-        id: 1,
-        name: 'Basic Tee',
-        href: '#',
-        price: '$32.00',
-        color: 'Sienna',
-        inStock: true,
-        size: 'Large',
-        imageSrc: 'https://tailwindui.com/img/ecommerce-images/shopping-cart-page-01-product-01.jpg',
-        imageAlt: "Front of men's Basic Tee in sienna.",
-    },
-    {
-        id: 2,
-        name: 'Basic Tee',
-        href: '#',
-        price: '$32.00',
-        color: 'Black',
-        inStock: false,
-        leadTime: '3–4 weeks',
-        size: 'Large',
-        imageSrc: 'https://tailwindui.com/img/ecommerce-images/shopping-cart-page-01-product-02.jpg',
-        imageAlt: "Front of men's Basic Tee in black.",
-    },
-    {
-        id: 3,
-        name: 'Nomad Tumbler',
-        href: '#',
-        price: '$35.00',
-        color: 'White',
-        inStock: true,
-        imageSrc: 'https://tailwindui.com/img/ecommerce-images/shopping-cart-page-01-product-03.jpg',
-        imageAlt: 'Insulated bottle with white base and black snap lid.',
-    },
-]
+import {
+    QuestionMarkCircleIcon,
+    XMarkIcon,
+} from "@heroicons/react/20/solid";
+import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+import { deleteItemFromCartAsync, selectCartItems, updateCartAsync } from "./cartSlice";
 
 export default function Cart() {
+    const dispatch = useDispatch();
+    const cartItems = useSelector(selectCartItems);
+
+    const handleRemove = (itemId) => {
+        dispatch(deleteItemFromCartAsync(itemId));
+    }
+
+    const handleQuantity = (e, item) => {
+        dispatch(updateCartAsync({ id: item.id, quantity: +e.target.value }));
+    };
+
+    const totalAmount = cartItems.reduce(
+        (amount, item) => item.product.price * item.quantity + amount,
+        0
+    );
+    const totalItems = cartItems.reduce((total, item) => item.quantity + total, 0);
+
     return (
         <div className="bg-white">
             <div className="max-w-2xl mx-auto pt-16 pb-24 px-4 sm:px-6 lg:max-w-7xl lg:px-8">
-                <h1 className="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">Shopping Cart</h1>
+                <h1 className="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">
+                    Shopping Cart
+                </h1>
                 <form className="mt-12 lg:grid lg:grid-cols-12 lg:gap-x-12 lg:items-start xl:gap-x-16">
                     <section aria-labelledby="cart-heading" className="lg:col-span-7">
                         <h2 id="cart-heading" className="sr-only">
                             Items in your shopping cart
                         </h2>
 
-                        <ul role="list" className="border-t border-b border-gray-200 divide-y divide-gray-200">
-                            {products.map((product, productIdx) => (
-                                <li key={product.id} className="flex py-6 sm:py-10">
+                        <ul
+                            role="list"
+                            className="border-t border-b border-gray-200 divide-y divide-gray-200"
+                        >
+                            {cartItems.map((item, productIdx) => (
+                                <li key={item.id} className="flex py-6 sm:py-10">
                                     <div className="flex-shrink-0">
                                         <img
-                                            src={product.imageSrc}
-                                            alt={product.imageAlt}
+                                            src={item.product.thumbnail}
+                                            alt={item.product.title}
                                             className="w-24 h-24 rounded-md object-center object-cover sm:w-48 sm:h-48"
                                         />
                                     </div>
@@ -65,25 +55,35 @@ export default function Cart() {
                                             <div>
                                                 <div className="flex justify-between">
                                                     <h3 className="text-sm">
-                                                        <a href={product.href} className="font-medium text-gray-700 hover:text-gray-800">
-                                                            {product.name}
-                                                        </a>
+                                                        <Link
+                                                            to={`/products/${item.product.id}`}
+                                                            className="font-medium text-gray-700 hover:text-gray-800"
+                                                        >
+                                                            {item.product.title}
+                                                        </Link>
                                                     </h3>
                                                 </div>
-                                                <div className="mt-1 flex text-sm">
+                                                {/* <div className="mt-1 flex text-sm">
                                                     <p className="text-gray-500">{product.color}</p>
                                                     {product.size ? (
                                                         <p className="ml-4 pl-4 border-l border-gray-200 text-gray-500">{product.size}</p>
                                                     ) : null}
-                                                </div>
-                                                <p className="mt-1 text-sm font-medium text-gray-900">{product.price}</p>
+                                                </div> */}
+                                                <p className="mt-1 text-sm font-medium text-gray-900">
+                                                    ${item.product.price}
+                                                </p>
                                             </div>
 
                                             <div className="mt-4 sm:mt-0 sm:pr-9">
-                                                <label htmlFor={`quantity-${productIdx}`} className="sr-only">
-                                                    Quantity, {product.name}
+                                                <label
+                                                    htmlFor={`quantity-${productIdx}`}
+                                                    className="sr-only"
+                                                >
+                                                    Quantity, {item.product.title}
                                                 </label>
                                                 <select
+                                                    onChange={(e) => handleQuantity(e, item)}
+                                                    value={item.quantity}
                                                     id={`quantity-${productIdx}`}
                                                     name={`quantity-${productIdx}`}
                                                     className="max-w-full rounded-md border border-gray-300 py-1.5 text-base leading-5 font-medium text-gray-700 text-left shadow-sm focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
@@ -93,13 +93,14 @@ export default function Cart() {
                                                     <option value={3}>3</option>
                                                     <option value={4}>4</option>
                                                     <option value={5}>5</option>
-                                                    <option value={6}>6</option>
-                                                    <option value={7}>7</option>
-                                                    <option value={8}>8</option>
                                                 </select>
 
                                                 <div className="absolute top-0 right-0">
-                                                    <button type="button" className="-m-2 p-2 inline-flex text-gray-400 hover:text-gray-500">
+                                                    <button
+                                                        onClick={(e) => handleRemove(item.id)}
+                                                        type="button"
+                                                        className="-m-2 p-2 inline-flex text-gray-400 hover:text-gray-500"
+                                                    >
                                                         <span className="sr-only">Remove</span>
                                                         <XMarkIcon className="h-5 w-5" aria-hidden="true" />
                                                     </button>
@@ -107,7 +108,7 @@ export default function Cart() {
                                             </div>
                                         </div>
 
-                                        <p className="mt-4 flex text-sm text-gray-700 space-x-2">
+                                        {/* <p className="mt-4 flex text-sm text-gray-700 space-x-2">
                                             {product.inStock ? (
                                                 <CheckIcon className="flex-shrink-0 h-5 w-5 text-green-500" aria-hidden="true" />
                                             ) : (
@@ -115,7 +116,7 @@ export default function Cart() {
                                             )}
 
                                             <span>{product.inStock ? 'In stock' : `Ships in ${product.leadTime}`}</span>
-                                        </p>
+                                        </p> */}
                                     </div>
                                 </li>
                             ))}
@@ -127,46 +128,73 @@ export default function Cart() {
                         aria-labelledby="summary-heading"
                         className="mt-16 bg-gray-50 rounded-lg px-4 py-6 sm:p-6 lg:p-8 lg:mt-0 lg:col-span-5"
                     >
-                        <h2 id="summary-heading" className="text-lg font-medium text-gray-900">
+                        <h2
+                            id="summary-heading"
+                            className="text-lg font-medium text-gray-900"
+                        >
                             Order summary
                         </h2>
 
                         <dl className="mt-6 space-y-4">
                             <div className="flex items-center justify-between">
                                 <dt className="text-sm text-gray-600">Subtotal</dt>
-                                <dd className="text-sm font-medium text-gray-900">$99.00</dd>
+                                <dd className="text-sm font-medium text-gray-900">${totalAmount}</dd>
+                            </div>
+                            <div className="flex items-center justify-between pt-4 border-t">
+                                <dt className="text-sm text-gray-600">totalItems</dt>
+                                <dd className="text-sm font-medium text-gray-900">{totalItems}</dd>
                             </div>
                             <div className="border-t border-gray-200 pt-4 flex items-center justify-between">
                                 <dt className="flex items-center text-sm text-gray-600">
                                     <span>Shipping estimate</span>
-                                    <a href="#" className="ml-2 flex-shrink-0 text-gray-400 hover:text-gray-500">
-                                        <span className="sr-only">Learn more about how shipping is calculated</span>
-                                        <QuestionMarkCircleIcon className="h-5 w-5" aria-hidden="true" />
+                                    <a
+                                        href="#"
+                                        className="ml-2 flex-shrink-0 text-gray-400 hover:text-gray-500"
+                                    >
+                                        <span className="sr-only">
+                                            Learn more about how shipping is calculated
+                                        </span>
+                                        <QuestionMarkCircleIcon
+                                            className="h-5 w-5"
+                                            aria-hidden="true"
+                                        />
                                     </a>
                                 </dt>
-                                <dd className="text-sm font-medium text-gray-900">$5.00</dd>
+                                <dd className="text-sm font-medium text-gray-900">$0.00</dd>
                             </div>
-                            <div className="border-t border-gray-200 pt-4 flex items-center justify-between">
+                            {/* <div className="border-t border-gray-200 pt-4 flex items-center justify-between">
                                 <dt className="flex text-sm text-gray-600">
                                     <span>Tax estimate</span>
-                                    <a href="#" className="ml-2 flex-shrink-0 text-gray-400 hover:text-gray-500">
-                                        <span className="sr-only">Learn more about how tax is calculated</span>
-                                        <QuestionMarkCircleIcon className="h-5 w-5" aria-hidden="true" />
+                                    <a
+                                        href="#"
+                                        className="ml-2 flex-shrink-0 text-gray-400 hover:text-gray-500"
+                                    >
+                                        <span className="sr-only">
+                                            Learn more about how tax is calculated
+                                        </span>
+                                        <QuestionMarkCircleIcon
+                                            className="h-5 w-5"
+                                            aria-hidden="true"
+                                        />
                                     </a>
                                 </dt>
                                 <dd className="text-sm font-medium text-gray-900">$8.32</dd>
-                            </div>
+                            </div> */}
                             <div className="border-t border-gray-200 pt-4 flex items-center justify-between">
-                                <dt className="text-base font-medium text-gray-900">Order total</dt>
-                                <dd className="text-base font-medium text-gray-900">$112.32</dd>
+                                <dt className="text-base font-medium text-gray-900">
+                                    Order total
+                                </dt>
+                                <dd className="text-base font-medium text-gray-900">${totalAmount}</dd>
                             </div>
                         </dl>
 
                         <div className="mt-6">
-                            <Link to={'/checkout'}>
+                            <Link to={"/checkout"}>
                                 <button
                                     type="submit"
-                                    className="w-full bg-indigo-600 border border-transparent rounded-md shadow-sm py-3 px-4 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-indigo-500"
+                                    className={`w-full bg-indigo-600 border border-transparent rounded-md shadow-sm py-3 px-4 text-base 
+                                        font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2
+                                         focus:ring-offset-gray-50 focus:ring-indigo-500`}
                                 >
                                     Checkout
                                 </button>
@@ -176,5 +204,5 @@ export default function Cart() {
                 </form>
             </div>
         </div>
-    )
+    );
 }

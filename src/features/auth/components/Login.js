@@ -2,7 +2,6 @@ import { useDispatch, useSelector } from "react-redux"
 import { Link, Navigate } from "react-router-dom"
 import { checkUserAsync, selectAuthError, selectUser } from "../authSlice"
 import { useForm } from "react-hook-form";
-import { checkUser } from "../authAPI";
 
 const Login = () => {
     const dispatch = useDispatch();
@@ -20,8 +19,7 @@ const Login = () => {
     }
     return (
         <>
-            {user && <Navigate to={`/`} replace />}
-
+            {user && <Navigate to={`/`} replace={true} />}
             <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
                 <div className="sm:mx-auto sm:w-full sm:max-w-sm">
                     <img

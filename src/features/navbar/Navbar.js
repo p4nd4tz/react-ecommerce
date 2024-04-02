@@ -2,6 +2,8 @@ import { Fragment } from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { Bars3Icon, ShoppingCartIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import { Link } from 'react-router-dom'
+import { selectCartItems } from '../cart/cartSlice'
+import { useSelector } from 'react-redux'
 
 const user = {
     name: 'Tom Cook',
@@ -14,6 +16,7 @@ const navigation = [
     { name: 'Dashboard', href: '#', current: true },
     { name: 'Team', href: '#', current: false },
 ]
+
 const userNavigation = [
     { name: 'Your Profile', href: '#' },
     { name: 'Settings', href: '#' },
@@ -25,6 +28,8 @@ function classNames(...classes) {
 }
 
 export default function Navbar({ children }) {
+    const cartItems = useSelector(selectCartItems);
+
     return (
         <div className="min-h-full">
             <Disclosure as="nav" className="bg-gray-800">
@@ -74,9 +79,12 @@ export default function Navbar({ children }) {
                                             </button>
                                         </Link>
 
-                                        <span className="inline-flex z-10 items-center rounded-full bg-red-50 border mb-5 -ml-3 px-2 py-1 text-xs font-medium text-red-700 ring-1 ring-inset ring-red-600/10">
-                                            3
-                                        </span>
+                                        {
+                                            cartItems.length > 0 && (
+                                                <span className="inline-flex z-10 items-center rounded-full bg-red-50 border mb-5 -ml-3 px-2 py-1 text-xs font-medium text-red-700 ring-1 ring-inset ring-red-600/10">
+                                                    {cartItems.length}
+                                                </span>
+                                            )}
 
                                         {/* Profile dropdown */}
                                         <Menu as="div" className="relative ml-3">
@@ -165,9 +173,12 @@ export default function Navbar({ children }) {
                                         <span className="absolute -inset-1.5" />
                                         <ShoppingCartIcon className="h-6 w-6" aria-hidden="true" />
                                     </button>
-                                    <span className="inline-flex items-center rounded-full z-10 bg-red-50 mb-7 -ml-3 px-2 py-1 text-xs font-medium text-red-700 ring-1 ring-inset ring-red-600/10">
-                                        3
-                                    </span>
+                                    {
+                                        cartItems.length > 0 && (
+                                            <span className="inline-flex z-10 items-center rounded-full bg-red-50 border mb-5 -ml-3 px-2 py-1 text-xs font-medium text-red-700 ring-1 ring-inset ring-red-600/10">
+                                                {cartItems.length}
+                                            </span>
+                                        )}
                                 </div>
                                 <div className="mt-3 space-y-1 px-2">
                                     {userNavigation.map((item) => (
