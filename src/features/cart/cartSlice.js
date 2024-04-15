@@ -32,8 +32,8 @@ export const updateCartAsync = createAsyncThunk(
 
 export const fetchItemsByUserIdAsync = createAsyncThunk(
     'cart/fetchItemsByUserId',
-    async () => {
-        const response = await fetchItemsByUserId();
+    async (userId) => {
+        const response = await fetchItemsByUserId(userId);
         // The value we return becomes the `fulfilled` action payload
         return response.data;
     }

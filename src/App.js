@@ -13,8 +13,8 @@ import ProductDetail from './features/product/components/ProductDetail';
 import ProductList from './features/product/components/ProductList';
 import Protected from './features/auth/components/Protected';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchItemsByUserId } from './features/cart/cartAPI';
 import { selectUser } from './features/auth/authSlice';
+import { fetchItemsByUserIdAsync } from './features/cart/cartSlice';
 
 const router = createBrowserRouter([
   {
@@ -60,9 +60,9 @@ function App() {
 
   useEffect(() => {
     if (user) {
-      dispatch(fetchItemsByUserId(user.id));
+      dispatch(fetchItemsByUserIdAsync(user.id));
     }
-  }, []);
+  }, [dispatch, user]);
 
   return (
     <div className="App">

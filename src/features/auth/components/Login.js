@@ -17,6 +17,7 @@ const Login = () => {
     const onSubmit = (data) => {
         dispatch(checkUserAsync({ email: data.email, password: data.password }));
     }
+    
     return (
         <>
             {user && <Navigate to={`/`} replace={true} />}
