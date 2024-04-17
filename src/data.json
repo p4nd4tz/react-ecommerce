@@ -2446,29 +2446,6 @@
   ],
   "cart": [
     {
-      "id": "b6bc",
-      "product": {
-        "id": "2",
-        "title": "iPhone X",
-        "description": "SIM-Free, Model A19211 6.5-inch Super Retina HD display with OLED technology A12 Bionic chip with ...",
-        "price": 899,
-        "discountPercentage": 17.94,
-        "rating": 4.44,
-        "stock": 34,
-        "brand": "Apple",
-        "category": "smartphones",
-        "thumbnail": "https://cdn.dummyjson.com/product-images/2/thumbnail.jpg",
-        "images": [
-          "https://cdn.dummyjson.com/product-images/2/1.jpg",
-          "https://cdn.dummyjson.com/product-images/2/2.jpg",
-          "https://cdn.dummyjson.com/product-images/2/3.jpg",
-          "https://cdn.dummyjson.com/product-images/2/thumbnail.jpg"
-        ]
-      },
-      "quantity": 1,
-      "user": "8a06"
-    },
-    {
       "id": "d38a"
     }
   ],
@@ -2505,6 +2482,93 @@
         }
       ],
       "totalAmount": 549,
+      "totalItems": 1,
+      "user": {
+        "id": "d6b0",
+        "email": "hello@mailinator.com",
+        "password": "Admin@123"
+      },
+      "address": {
+        "name": "Abhishek Sharma",
+        "email": "hello@mailinator.com",
+        "streetAddress": "test address",
+        "city": "Gharaunda",
+        "state": "haryana",
+        "pinCode": "132114",
+        "phone": "999-9999-999",
+        "paymentType": "cash"
+      }
+    },
+    {
+      "id": "e560",
+      "items": [
+        {
+          "id": "b6bc",
+          "product": {
+            "id": "2",
+            "title": "iPhone X",
+            "description": "SIM-Free, Model A19211 6.5-inch Super Retina HD display with OLED technology A12 Bionic chip with ...",
+            "price": 899,
+            "discountPercentage": 17.94,
+            "rating": 4.44,
+            "stock": 34,
+            "brand": "Apple",
+            "category": "smartphones",
+            "thumbnail": "https://cdn.dummyjson.com/product-images/2/thumbnail.jpg",
+            "images": [
+              "https://cdn.dummyjson.com/product-images/2/1.jpg",
+              "https://cdn.dummyjson.com/product-images/2/2.jpg",
+              "https://cdn.dummyjson.com/product-images/2/3.jpg",
+              "https://cdn.dummyjson.com/product-images/2/thumbnail.jpg"
+            ]
+          },
+          "quantity": 1,
+          "user": "8a06"
+        }
+      ],
+      "totalAmount": 899,
+      "totalItems": 1,
+      "user": {
+        "id": "8a06",
+        "email": "test@mailinator.com",
+        "password": "Admin@123"
+      },
+      "address": {
+        "name": "Abhishek Sharma",
+        "email": "test@mailinator.com",
+        "streetAddress": "test address",
+        "city": "Gharaunda",
+        "state": "haryana",
+        "pinCode": "132114",
+        "phone": "999-9999-999",
+        "paymentType": "cash"
+      }
+    },
+    {
+      "id": "5202",
+      "items": [
+        {
+          "id": "2f34",
+          "product": {
+            "id": "3",
+            "title": "Samsung Universe 9",
+            "description": "Samsung's new variant which goes beyond Galaxy to the Universe",
+            "price": 1249,
+            "discountPercentage": 15.46,
+            "rating": 4.09,
+            "stock": 36,
+            "brand": "Samsung",
+            "category": "smartphones",
+            "thumbnail": "https://cdn.dummyjson.com/product-images/3/thumbnail.jpg",
+            "images": [
+              "https://cdn.dummyjson.com/product-images/3/1.jpg"
+            ]
+          },
+          "quantity": 1,
+          "user": "d6b0"
+        }
+      ],
+      "totalAmount": 1249,
       "totalItems": 1,
       "user": {
         "id": "d6b0",

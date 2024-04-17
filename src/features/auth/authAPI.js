@@ -32,3 +32,10 @@ export function checkUser(user) {
         }
     });
 }
+
+
+export function logout(userId) {
+    return new Promise(async (resolve, reject) => {
+        resolve({ data: 'success' })
+    });
+}

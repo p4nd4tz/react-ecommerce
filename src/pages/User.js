@@ -1,7 +1,7 @@
 import { Outlet } from "react-router";
 import NavBar from "../features/navbar/Navbar";
 
-function Home() {
+function User() {
     return (
         <div>
             <NavBar>
@@ -11,4 +11,4 @@ function Home() {
     );
 }
 
-export default Home;
+export default User;

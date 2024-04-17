@@ -17,6 +17,10 @@ import { selectUser } from './features/auth/authSlice';
 import { fetchItemsByUserIdAsync } from './features/cart/cartSlice';
 import PageNotFound from './pages/404'
 import OrderSuccessPage from './pages/OrderSuccessPage';
+import User from './pages/User'
+import UserOrders from './features/user/components/UserOrders';
+import Logout from './features/auth/components/Logout';
+import ForgotPasswordPage from './pages/ForgotPasswordPage';
 
 const router = createBrowserRouter([
   {
@@ -32,14 +36,36 @@ const router = createBrowserRouter([
     ]
   },
   {
+    path: "/user",
+    element:
+      <Protected>
+        <User />
+      </Protected>
+    ,
+    children: [
+      { index: true, element: <ProductList /> },
+      { path: "orders", element: <UserOrders /> }
+    ]
+  },
+  {
     path: "login",
     element:
       <LoginPage />
     ,
   },
   {
+    path: "logout",
+    element:
+      <Logout />
+    ,
+  },
+  {
     path: "signup",
     element: <SignupPage />,
+  },
+  {
+    path: "forgot-password",
+    element: <ForgotPasswordPage />,
   },
   {
     path: "cart",
