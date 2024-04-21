@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchProductByIdAsync, selectProductById } from '../productSlice';
 import { Link, useParams } from 'react-router-dom';
 import { colors, sizes, highlights, breadcrumbs, reviews } from '../constants';
-import { selectUser } from '../../auth/authSlice';
+import { selectLoggedInUser } from '../../auth/authSlice';
 import { addToCartAsync, selectCartItems } from '../../cart/cartSlice';
 
 function classNames(...classes) {
@@ -19,7 +19,7 @@ export default function ProductDetail() {
     const dispatch = useDispatch();
     const params = useParams();
     const product = useSelector(selectProductById);
-    const user = useSelector(selectUser);
+    const user = useSelector(selectLoggedInUser);
     const cartItems = useSelector(selectCartItems);
 
     const handleAddToCart = (e) => {

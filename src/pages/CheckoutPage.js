@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { deleteItemFromCartAsync, selectCartItems, updateCartAsync } from '../features/cart/cartSlice'
 import { QuestionMarkCircleIcon } from '@heroicons/react/20/solid'
 import { useForm } from 'react-hook-form'
-import { selectUser } from '../features/auth/authSlice'
+import { selectLoggedInUser } from '../features/auth/authSlice'
 import { createOrderAsync, selectCurrentOrder } from '../features/order/orderSlice'
 import { Navigate } from 'react-router-dom'
 
@@ -93,7 +93,7 @@ export default function CheckoutPage() {
 
     const dispatch = useDispatch();
     const cartItems = useSelector(selectCartItems);
-    const user = useSelector(selectUser);
+    const user = useSelector(selectLoggedInUser);
     const currentOrder  = useSelector(selectCurrentOrder);
 
     const {

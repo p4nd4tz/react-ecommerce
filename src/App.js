@@ -12,8 +12,9 @@ import CheckoutPage from './pages/CheckoutPage';
 import ProductDetail from './features/product/components/ProductDetail';
 import ProductList from './features/product/components/ProductList';
 import Protected from './features/auth/components/Protected';
+import ProtectedAdmin from './features/auth/components/ProtectedAdmin';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectUser } from './features/auth/authSlice';
+import { selectLoggedInUser } from './features/auth/authSlice';
 import { fetchItemsByUserIdAsync } from './features/cart/cartSlice';
 import PageNotFound from './pages/404'
 import OrderSuccessPage from './pages/OrderSuccessPage';
@@ -21,6 +22,8 @@ import User from './pages/User'
 import UserOrders from './features/user/components/UserOrders';
 import Logout from './features/auth/components/Logout';
 import ForgotPasswordPage from './pages/ForgotPasswordPage';
+import AdminProductList from './features/admin/components/AdminProductList';
+import ProductForm from './features/admin/components/ProductForm';
 
 const router = createBrowserRouter([
   {
@@ -33,6 +36,19 @@ const router = createBrowserRouter([
     children: [
       { index: true, element: <ProductList /> },
       { path: "/products/:id", element: <ProductDetail /> }
+    ]
+  },
+  {
+    path: "/admin",
+    element:
+      <ProtectedAdmin>
+        <Home />
+      </ProtectedAdmin>
+    ,
+    children: [
+      { index: true, element: <AdminProductList /> },
+      { path: "product-form", element: <ProductForm /> },
+      { path: "product-form/edit/:id", element: <ProductForm /> }
     ]
   },
   {
@@ -94,7 +110,7 @@ const router = createBrowserRouter([
 
 function App() {
   const dispatch = useDispatch();
-  const user = useSelector(selectUser);
+  const user = useSelector(selectLoggedInUser);
 
   useEffect(() => {
     if (user) {

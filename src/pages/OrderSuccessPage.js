@@ -3,11 +3,11 @@ import { Link, Navigate } from "react-router-dom";
 import { selectCurrentOrder } from "../features/order/orderSlice";
 import { useEffect } from "react";
 import { resetCartAsync } from "../features/cart/cartSlice";
-import { selectUser } from "../features/auth/authSlice";
+import { selectLoggedInUser } from "../features/auth/authSlice";
 
 const OrderSuccessPage = () => {
     const order = useSelector(selectCurrentOrder);
-    const user = useSelector(selectUser);
+    const user = useSelector(selectLoggedInUser);
     const dispatch = useDispatch();
 
     useEffect(() => {

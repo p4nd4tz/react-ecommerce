@@ -1,11 +1,11 @@
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, Navigate } from "react-router-dom";
-import { createUserAsync, selectUser } from "../authSlice";
+import { createUserAsync, selectLoggedInUser } from "../authSlice";
 
 const Signup = () => {
     const dispatch = useDispatch();
-    const user = useSelector(selectUser);
+    const user = useSelector(selectLoggedInUser);
 
     const {
         register,
@@ -14,7 +14,7 @@ const Signup = () => {
     } = useForm();
 
     const onSubmit = (data) => {
-        dispatch(createUserAsync({ email: data.email, password: data.password }));
+        dispatch(createUserAsync({ email: data.email, password: data.password, role: '', }));
     }
 
     return (
