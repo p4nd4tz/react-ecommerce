@@ -16,7 +16,8 @@
         "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSFq0uk9j0MnaiISI-yIqrt73PI7RKTqCwYH7lbVsGpQdrbL9eQuHmwTRjxDfYSQLomRpw&usqp=CAU",
         "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRYMx2sI9Fc8ooNTX4amEbqgk9Oi8nSfq6x6obusm6_GAa8ot9q6M8yaGMFdpGKPcXnqR8&usqp=CAU",
         "https://m.media-amazon.com/images/I/61bK6PMOC3L._AC_UF1000,1000_QL80_.jpg"
-      ]
+      ],
+      "deleted": true
     },
     {
       "id": "2",
@@ -2494,9 +2495,6 @@
   ],
   "orders": [
     {
-      "id": "7859"
-    },
-    {
       "id": "f7ea",
       "items": [
         {
@@ -2623,6 +2621,49 @@
         "email": "hello@mailinator.com",
         "streetAddress": "test address",
         "city": "Gharaunda",
+        "state": "haryana",
+        "pinCode": "132114",
+        "phone": "999-9999-999",
+        "paymentType": "cash"
+      }
+    },
+    {
+      "id": "4087",
+      "items": [
+        {
+          "id": "1420",
+          "product": {
+            "id": "3",
+            "title": "Samsung Universe 9",
+            "description": "Samsung's new variant which goes beyond Galaxy to the Universe",
+            "price": 1249,
+            "discountPercentage": 15.46,
+            "rating": 4.09,
+            "stock": 36,
+            "brand": "Samsung",
+            "category": "smartphones",
+            "thumbnail": "https://cdn.dummyjson.com/product-images/3/thumbnail.jpg",
+            "images": [
+              "https://cdn.dummyjson.com/product-images/3/1.jpg"
+            ]
+          },
+          "quantity": 1,
+          "user": "8a06"
+        }
+      ],
+      "totalAmount": 1249,
+      "totalItems": 1,
+      "user": {
+        "id": "8a06",
+        "email": "test@mailinator.com",
+        "password": "Admin@123",
+        "role": "user"
+      },
+      "address": {
+        "name": "Abhishek Sharma",
+        "email": "test@mailinator.com",
+        "streetAddress": "test",
+        "city": "test",
         "state": "haryana",
         "pinCode": "132114",
         "phone": "999-9999-999",

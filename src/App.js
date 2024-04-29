@@ -24,6 +24,7 @@ import Logout from './features/auth/components/Logout';
 import ForgotPasswordPage from './pages/ForgotPasswordPage';
 import AdminProductList from './features/admin/components/AdminProductList';
 import ProductForm from './features/admin/components/ProductForm';
+import AdminOrders from './features/admin/components/AdminOrders';
 
 const router = createBrowserRouter([
   {
@@ -48,7 +49,8 @@ const router = createBrowserRouter([
     children: [
       { index: true, element: <AdminProductList /> },
       { path: "product-form", element: <ProductForm /> },
-      { path: "product-form/edit/:id", element: <ProductForm /> }
+      { path: "product-form/edit/:id", element: <ProductForm /> },
+      { path: "orders", element: <AdminOrders /> },
     ]
   },
   {
